@@ -570,20 +570,20 @@ function playerRotate(dir) {
 }
 
 function playerDrop() {
-    player.pos.y++;
+    // CRITICAL: Check collision BEFORE moving
+    const testPos = {x: player.pos.x, y: player.pos.y + 1};
+    const testPlayer = {matrix: player.matrix, pos: testPos};
     
-    // Check collision BEFORE potentially going too far
-    if (collide(arena, player)) {
-        player.pos.y--;
-        
-        // Double-check we're not below bounds
-        if (player.pos.y < 0) player.pos.y = 0;
-        
+    if (collide(arena, testPlayer)) {
+        // Cannot move down - land the piece
         merge(arena, player);
         playerReset();
         arenaSweep();
         updateScore();
         playSound('drop');
+    } else {
+        // Safe to move down
+        player.pos.y++;
     }
     dropCounter = 0;
 }
