@@ -735,14 +735,15 @@ function update(time = 0) {
     
     drawMatrixRain();
     
-    if (gameStarted && !gameOver && !paused) {
-        dropCounter += deltaTime;
-        if (dropCounter > dropInterval) {
-            playerDrop();
+    // ALWAYS draw game if started, regardless of state
+    if (gameStarted) {
+        if (!gameOver && !paused) {
+            dropCounter += deltaTime;
+            if (dropCounter > dropInterval) {
+                playerDrop();
+            }
         }
-        draw();
-    } else if (gameStarted) {
-        draw();
+        draw(); // ALWAYS draw when game is started
     }
     
     requestAnimationFrame(update);
