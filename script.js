@@ -415,10 +415,6 @@ function draw() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
     ctx.fillRect(offsetX, offsetY, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
     
-    // Draw game field border
-    ctx.strokeStyle = '#0f0';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(offsetX, offsetY, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
     
     arena.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -473,18 +469,27 @@ function drawNext() {
 }
 
 function collide(arena, player) {
-    const [m, o] = [player.matrix, player.pos];
-    for (let y = 0; y < m.length; ++y) {
-        for (let x = 0; x < m[y].length; ++x) {
+    const m = player.matrix;
+    const o = player.pos;
+    
+    for (let y = 0; y < m.length; y++) {
+        for (let x = 0; x < m[y].length; x++) {
             if (m[y][x] !== 0) {
-                // Check if out of bounds (bottom or sides)
-                if (y + o.y >= arena.length || 
-                    x + o.x < 0 || 
-                    x + o.x >= arena[0].length) {
+                const newY = y + o.y;
+                const newX = x + o.x;
+                
+                // Check bottom boundary
+                if (newY >= ROWS) {
                     return true;
                 }
-                // Check if colliding with existing block
-                if (arena[y + o.y] && arena[y + o.y][x + o.x] !== 0) {
+                
+                // Check left/right boundaries
+                if (newX < 0 || newX >= COLS) {
+                    return true;
+                }
+                
+                // Check collision with placed blocks
+                if (newY >= 0 && arena[newY] && arena[newY][newX] !== 0) {
                     return true;
                 }
             }
