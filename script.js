@@ -387,13 +387,22 @@ function drawMatrix(matrix, offset, context = ctx, blockSize = BLOCK_SIZE) {
 }
 
 function draw() {
+    console.log('draw() CALLED');
+    
+    if (!canvas || !ctx) {
+        console.error('Canvas or context is NULL in draw()!');
+        return;
+    }
+    
     // CLEAR ENTIRE CANVAS FIRST - CRITICAL!
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    console.log('Cleared canvas');
     
     // Draw bright test marker to verify canvas works
     ctx.fillStyle = '#ff0';
     ctx.fillRect(0, 0, 50, 50);
+    console.log('Drew yellow test square at 0,0,50,50');
     
     const offsetX = (canvas.width - COLS * BLOCK_SIZE) / 2;
     const offsetY = 50;
@@ -677,6 +686,11 @@ function startGame() {
     const nameInput = document.getElementById('playerName');
     playerName = nameInput.value.trim() || 'Anonymous';
     
+    console.log('=== GAME START ===');
+    console.log('Canvas element:', canvas);
+    console.log('Canvas dimensions:', canvas ? canvas.width + 'x' + canvas.height : 'NULL');
+    console.log('Context:', ctx);
+    
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('gameContainer').style.display = 'flex';
     document.getElementById('playerNameDisplay').textContent = playerName;
@@ -691,10 +705,14 @@ function startGame() {
     gameStarted = true;
     nextPiece = null;
     
+    console.log('Game state set, calling updateScore...');
     updateScore();
+    console.log('Calling displayHighscores...');
     displayHighscores();
+    console.log('Calling playerReset...');
     playerReset();
     lastTime = performance.now();
+    console.log('startGame complete, update loop should call draw()');
 }
 
 function backToStart() {
@@ -771,10 +789,18 @@ window.addEventListener('resize', () => {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('=== DOM LOADED ===');
+    console.log('matrixCanvas:', matrixCanvas);
+    console.log('canvas:', canvas);
+    console.log('nextCanvas:', nextCanvas);
+    console.log('ctx:', ctx);
+    
     initMatrixRain();
     initAudio();
     displayHighscores();
     update();
+    
+    console.log('Initialization complete, update loop started');
 });
 
 document.addEventListener('click', () => {
