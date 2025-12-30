@@ -1,13 +1,19 @@
 // Matrix-Style Windsurf Tetris - Enhanced Version
 // ================================================
 
-const canvas = document.getElementById('matrixCanvas');
+// Matrix Rain Background Canvas
+const matrixCanvas = document.getElementById('matrixCanvas');
+const matrixCtx = matrixCanvas.getContext('2d');
+matrixCanvas.width = window.innerWidth;
+matrixCanvas.height = window.innerHeight;
+
+// Game Canvas
+const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+
+// Next Piece Canvas
 const nextCanvas = document.getElementById('nextCanvas');
 const nextCtx = nextCanvas.getContext('2d');
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
 // Game Constants
 const COLS = 10;
@@ -70,8 +76,8 @@ let columns;
 let drops = [];
 
 function initMatrixRain() {
-    columns = Math.floor(canvas.width / fontSize);
-    drops = Array.from({ length: columns }, () => Math.random() * canvas.height / fontSize);
+    columns = Math.floor(matrixCanvas.width / fontSize);
+    drops = Array.from({ length: columns }, () => Math.random() * matrixCanvas.height / fontSize);
 }
 
 // Matrix Explosion and LEVEL UP Animation
@@ -82,8 +88,8 @@ function triggerMatrixExplosion() {
     const explosionCount = 50;
     for (let i = 0; i < explosionCount; i++) {
         explosions.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: Math.random() * matrixCanvas.width,
+            y: Math.random() * matrixCanvas.height,
             vx: (Math.random() - 0.5) * 10,
             vy: (Math.random() - 0.5) * 10,
             char: MATRIX_CHARS.charAt(Math.floor(Math.random() * MATRIX_CHARS.length)),
@@ -103,8 +109,8 @@ function triggerMatrixExplosion() {
     // Create particles that form LEVEL UP
     const text = 'LEVEL UP';
     const fontSize = 60;
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
+    const centerX = matrixCanvas.width / 2;
+    const centerY = matrixCanvas.height / 2;
     const textWidth = text.length * fontSize * 0.6;
     const startX = centerX - textWidth / 2;
     
@@ -116,8 +122,8 @@ function triggerMatrixExplosion() {
         for (let j = 0; j < 15; j++) {
             levelUpAnimation.particles.push({
                 char: text[i],
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
+                x: Math.random() * matrixCanvas.width,
+                y: Math.random() * matrixCanvas.height,
                 targetX: targetX + (Math.random() - 0.5) * 20,
                 targetY: targetY + (Math.random() - 0.5) * 20,
                 vx: 0,
@@ -131,21 +137,21 @@ function triggerMatrixExplosion() {
 
 function drawMatrixRain() {
     // Simple fade like matrixshell-web
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
     
     // Draw matrix rain
-    ctx.fillStyle = '#0F0';
-    ctx.font = `${fontSize}px monospace`;
+    matrixCtx.fillStyle = '#0F0';
+    matrixCtx.font = `${fontSize}px monospace`;
     
     for (let i = 0; i < columns; i++) {
         const text = MATRIX_CHARS.charAt(Math.floor(Math.random() * MATRIX_CHARS.length));
         const x = i * fontSize;
         const y = drops[i] * fontSize;
-        ctx.fillText(text, x, y);
+        matrixCtx.fillText(text, x, y);
         
         // Reset and slower speed
-        if (y > canvas.height && Math.random() > 0.975) {
+        if (y > matrixCanvas.height && Math.random() > 0.975) {
             drops[i] = 0;
         }
         drops[i] += 0.3 + Math.random() * 0.4;
@@ -166,9 +172,9 @@ function drawMatrixRain() {
         }
         
         const alpha = exp.life;
-        ctx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
-        ctx.font = `${exp.size}px monospace`;
-        ctx.fillText(exp.char, exp.x, exp.y);
+        matrixCtx.fillStyle = `rgba(0, 255, 0, ${alpha})`;
+        matrixCtx.font = `${exp.size}px monospace`;
+        matrixCtx.fillText(exp.char, exp.x, exp.y);
     }
     
     // Draw LEVEL UP animation
@@ -202,12 +208,12 @@ function drawMatrixRain() {
             
             // Draw particle
             if (particle.alpha > 0) {
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = '#0f0';
-                ctx.fillStyle = `rgba(0, 255, 0, ${particle.alpha})`;
-                ctx.font = `bold ${particle.size}px monospace`;
-                ctx.fillText(particle.char, particle.x, particle.y);
-                ctx.shadowBlur = 0;
+                matrixCtx.shadowBlur = 20;
+                matrixCtx.shadowColor = '#0f0';
+                matrixCtx.fillStyle = `rgba(0, 255, 0, ${particle.alpha})`;
+                matrixCtx.font = `bold ${particle.size}px monospace`;
+                matrixCtx.fillText(particle.char, particle.x, particle.y);
+                matrixCtx.shadowBlur = 0;
             }
         }
         
@@ -748,8 +754,8 @@ document.getElementById('playerName').addEventListener('keydown', event => {
 
 // Window Resize
 window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    matrixCanvas.width = window.innerWidth;
+    matrixCanvas.height = window.innerHeight;
     initMatrixRain();
 });
 
