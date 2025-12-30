@@ -397,7 +397,6 @@ function drawMatrix(matrix, offset, context = ctx, blockSize = BLOCK_SIZE) {
 }
 
 function draw() {
-    console.log('draw() CALLED');
     
     if (!canvas || !ctx) {
         console.error('Canvas or context is NULL in draw()!');
@@ -407,12 +406,7 @@ function draw() {
     // CLEAR ENTIRE CANVAS FIRST - CRITICAL!
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    console.log('Cleared canvas');
     
-    // Draw bright test marker to verify canvas works
-    ctx.fillStyle = '#ff0';
-    ctx.fillRect(0, 0, 50, 50);
-    console.log('Drew yellow test square at 0,0,50,50');
     
     const offsetX = (canvas.width - COLS * BLOCK_SIZE) / 2;
     const offsetY = 50;
@@ -482,11 +476,17 @@ function collide(arena, player) {
     const [m, o] = [player.matrix, player.pos];
     for (let y = 0; y < m.length; ++y) {
         for (let x = 0; x < m[y].length; ++x) {
-            if (m[y][x] !== 0 &&
-               (arena[y + o.y] === undefined ||
-                arena[y + o.y][x + o.x] === undefined ||
-                arena[y + o.y][x + o.x] !== 0)) {
-                return true;
+            if (m[y][x] !== 0) {
+                // Check if out of bounds (bottom or sides)
+                if (y + o.y >= arena.length || 
+                    x + o.x < 0 || 
+                    x + o.x >= arena[0].length) {
+                    return true;
+                }
+                // Check if colliding with existing block
+                if (arena[y + o.y] && arena[y + o.y][x + o.x] !== 0) {
+                    return true;
+                }
             }
         }
     }
