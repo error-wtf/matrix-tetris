@@ -162,7 +162,26 @@ const COLORS = {
 
 ## 📜 License
 
-MIT License - Free to use, modify, and distribute.
+**Anti-Capitalist Software License v1.4**
+
+This software is released under the [Anti-Capitalist Software License v1.4](LICENSE).
+
+### ✊ Who Can Use This Software?
+
+✅ **Allowed:**
+- Individual developers working for themselves
+- Non-profit organizations
+- Educational institutions
+- Worker cooperatives (equal ownership & voting rights)
+- Community projects
+
+❌ **Not Allowed:**
+- For-profit corporations with separated ownership and labor
+- Organizations exploiting workers
+- Military or law enforcement
+- Any entity perpetuating economic inequality
+
+See the full [LICENSE](LICENSE) file for details.
 
 ---
 

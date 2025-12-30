@@ -16,6 +16,10 @@ const BLOCK_SIZE = 35;
 const LINES_PER_LEVEL = 10;
 const MAX_LEVEL = 1000;
 
+// Speed configuration
+const INITIAL_SPEED = 2000;  // Level 1: 2 seconds (very slow)
+const FINAL_SPEED = 50;      // Level 1000: 50ms (max playable speed)
+
 // Tetromino Shapes
 const SHAPES = {
     I: [[1,1,1,1]],
@@ -665,7 +669,7 @@ function startGame() {
     score = 0;
     level = 1;
     lines = 0;
-    dropInterval = 1000;
+    dropInterval = calculateDropInterval(1); // Start with Level 1 speed
     gameOver = false;
     paused = false;
     gameStarted = true;
