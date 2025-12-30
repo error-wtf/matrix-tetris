@@ -387,12 +387,22 @@ function drawMatrix(matrix, offset, context = ctx, blockSize = BLOCK_SIZE) {
 }
 
 function draw() {
+    // CLEAR ENTIRE CANVAS FIRST - CRITICAL!
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw bright test marker to verify canvas works
+    ctx.fillStyle = '#ff0';
+    ctx.fillRect(0, 0, 50, 50);
+    
     const offsetX = (canvas.width - COLS * BLOCK_SIZE) / 2;
     const offsetY = 50;
     
+    // Draw game field background
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
     ctx.fillRect(offsetX, offsetY, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
     
+    // Draw game field border
     ctx.strokeStyle = '#0f0';
     ctx.lineWidth = 2;
     ctx.strokeRect(offsetX, offsetY, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);

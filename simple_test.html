@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Canvas Test</title>
+    <style>
+        body { background: #000; margin: 0; padding: 20px; }
+        #gameCanvas { border: 3px solid #0f0; background: #000; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="300" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        console.log('Canvas:', canvas.width, 'x', canvas.height);
+        console.log('Context:', ctx);
+        
+        // Draw test rectangle
+        ctx.fillStyle = '#f00';
+        ctx.fillRect(10, 10, 100, 100);
+        console.log('Drew red square at 10,10,100,100');
+        
+        // Draw test Tetris block
+        ctx.fillStyle = '#0f0';
+        ctx.fillRect(50, 150, 35, 35);
+        console.log('Drew green block at 50,150,35,35');
+        
+        // Draw text
+        ctx.fillStyle = '#0ff';
+        ctx.font = '20px monospace';
+        ctx.fillText('TEST OK', 50, 250);
+        console.log('Drew text');
+    </script>
+</body>
+</html>
