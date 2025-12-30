@@ -571,8 +571,14 @@ function playerRotate(dir) {
 
 function playerDrop() {
     player.pos.y++;
+    
+    // Check collision BEFORE potentially going too far
     if (collide(arena, player)) {
         player.pos.y--;
+        
+        // Double-check we're not below bounds
+        if (player.pos.y < 0) player.pos.y = 0;
+        
         merge(arena, player);
         playerReset();
         arenaSweep();
@@ -657,7 +663,7 @@ function arenaSweep() {
         const newLevel = Math.min(MAX_LEVEL, Math.floor(lines / LINES_PER_LEVEL) + 1);
         if (newLevel > level) {
             level = newLevel;
-            dropInterval = Math.max(100, 1000 - (level - 1) * 5);
+            dropInterval = calculateDropInterval(level);
             triggerGlitch();
             playSound('levelup');
         }
