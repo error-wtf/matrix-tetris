@@ -375,8 +375,9 @@ function drawMatrix(matrix, offset, context = ctx, blockSize = BLOCK_SIZE) {
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                const px = (offset.x + x) * blockSize + (canvas.width - COLS * BLOCK_SIZE) / 2;
-                const py = (offset.y + y) * blockSize + 50;
+                // No offset - draw directly at grid position
+                const px = (offset.x + x) * blockSize;
+                const py = (offset.y + y) * blockSize;
                 
                 context.fillStyle = COLORS[value] || '#0f0';
                 context.fillRect(px, py, blockSize - 1, blockSize - 1);
@@ -397,30 +398,21 @@ function drawMatrix(matrix, offset, context = ctx, blockSize = BLOCK_SIZE) {
 }
 
 function draw() {
-    
     if (!canvas || !ctx) {
         console.error('Canvas or context is NULL in draw()!');
         return;
     }
     
-    // CLEAR ENTIRE CANVAS FIRST - CRITICAL!
+    // CLEAR ENTIRE CANVAS
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    
-    const offsetX = (canvas.width - COLS * BLOCK_SIZE) / 2;
-    const offsetY = 50;
-    
-    // Draw game field background
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-    ctx.fillRect(offsetX, offsetY, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
-    
-    
+    // Draw placed blocks (no offset, start at 0,0)
     arena.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                const px = offsetX + x * BLOCK_SIZE;
-                const py = offsetY + y * BLOCK_SIZE;
+                const px = x * BLOCK_SIZE;
+                const py = y * BLOCK_SIZE;
                 
                 ctx.fillStyle = value;
                 ctx.fillRect(px, py, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
@@ -435,6 +427,7 @@ function draw() {
         });
     });
     
+    // Draw current falling piece
     if (player.matrix) {
         drawMatrix(player.matrix, player.pos);
     }
