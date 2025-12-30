@@ -26,6 +26,16 @@ const MAX_LEVEL = 1000;
 const INITIAL_SPEED = 2000;  // Level 1: 2 seconds (very slow)
 const FINAL_SPEED = 50;      // Level 1000: 50ms (max playable speed)
 
+// Calculate drop interval for a given level (exponential decay)
+function calculateDropInterval(level) {
+    if (level >= MAX_LEVEL) return FINAL_SPEED;
+    if (level <= 1) return INITIAL_SPEED;
+    
+    // Exponential decay from INITIAL_SPEED to FINAL_SPEED
+    const t = (level - 1) / (MAX_LEVEL - 1);
+    return INITIAL_SPEED * Math.pow(FINAL_SPEED / INITIAL_SPEED, t);
+}
+
 // Tetromino Shapes
 const SHAPES = {
     I: [[1,1,1,1]],
