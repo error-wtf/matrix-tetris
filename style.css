@@ -61,9 +61,12 @@ body::before {
 }
 
 #canvas {
+    position: relative;
+    z-index: 200 !important;
+    background: #000 !important;
     border: 3px solid #0f0;
     box-shadow: 0 0 20px #0f0;
-    background: rgba(0, 0, 0, 0.9);
+    display: block !important;
 }
 
 .sidebar {
