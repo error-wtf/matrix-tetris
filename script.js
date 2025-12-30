@@ -253,54 +253,36 @@ function drawMatrixRain() {
     }
 }
 
-// Highscore System with JSON File & LocalStorage Fallback
+// Highscore Management (LocalStorage only for GitHub Pages)
 async function loadHighscores() {
-    // Try to load from JSON file first
     try {
-        const response = await fetch('highscores.json');
-        if (response.ok) {
-            const data = await response.json();
-            return Array.isArray(data) ? data : [];
-        }
+        const stored = localStorage.getItem('matrixTetrisHighscores');
+        return stored ? JSON.parse(stored) : [];
     } catch (e) {
-        console.log('Loading from LocalStorage instead');
+        console.error('Error loading highscores:', e);
+        return [];
     }
-    
-    // Fallback to LocalStorage
-    const stored = localStorage.getItem('matrixTetrisHighscores');
-    return stored ? JSON.parse(stored) : [];
 }
 
 async function saveHighscore(name, score, level, lines) {
-    let highscores = await loadHighscores();
-    highscores.push({
-        name: name || 'Anonymous',
-        score: score,
-        level: level,
-        lines: lines,
-        date: new Date().toISOString()
-    });
-    highscores.sort((a, b) => b.score - a.score);
-    const top10 = highscores.slice(0, 10);
-    
-    // Try to save to JSON file via PHP
     try {
-        const response = await fetch('save_highscore.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(top10)
+        let highscores = await loadHighscores();
+        highscores.push({
+            name: name || 'Anonymous',
+            score: score,
+            level: level,
+            lines: lines,
+            date: new Date().toISOString()
         });
+        highscores.sort((a, b) => b.score - a.score);
+        const top10 = highscores.slice(0, 10);
         
-        if (!response.ok) {
-            throw new Error('Server save failed');
-        }
+        localStorage.setItem('matrixTetrisHighscores', JSON.stringify(top10));
+        return top10;
     } catch (e) {
-        console.log('Saving to LocalStorage only');
+        console.error('Error saving highscore:', e);
+        return [];
     }
-    
-    // Always save to LocalStorage as backup
-    localStorage.setItem('matrixTetrisHighscores', JSON.stringify(top10));
-    return top10;
 }
 
 async function displayHighscores() {
