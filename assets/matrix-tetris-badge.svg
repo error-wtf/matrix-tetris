@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="159" height="28" viewBox="0 0 159 28" role="img" aria-labelledby="title desc">
+  <title id="title">Matrix Tetris</title>
+  <desc id="desc">Matrix Tetris project badge</desc>
+  <rect width="88" height="28" rx="4" fill="#151515"/>
+  <path d="M88 0h67a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H88z" fill="#00c853"/>
+  <path d="M9 6h2v16H9zm4 3h2v13h-2zm4-3h2v16h-2zm4 5h2v11h-2z" fill="#00ff73"/>
+  <g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="10" text-anchor="middle">
+    <text x="55" y="18">MATRIX</text>
+    <text x="123.5" y="18" font-weight="700">TETRIS</text>
+  </g>
+</svg>

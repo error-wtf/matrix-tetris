@@ -4,7 +4,7 @@ A stunning Matrix-themed Tetris game with authentic falling code rain, explosive
 
 ## ✨ [Play Live on GitHub Pages](https://error-wtf.github.io/matrix-tetris/)
 
-![Matrix Tetris](https://img.shields.io/badge/Matrix-Tetris-00ff00?style=for-the-badge&logo=matrix)
+![Matrix Tetris](assets/matrix-tetris-badge.svg)
 
 ---
 
